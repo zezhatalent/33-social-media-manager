@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.3);
+}
+
+* {
+  transition-property: background-color, border-color;
+  transition-duration: 0.25s;
+}
+
+::placeholder {
+  color: var(--muted, #888);
+}
+
+/* Mobile typography scale */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .text-5xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+  
+  .text-6xl {
+    font-size: 2.5rem;
+    line-height: 2.75rem;
+  }
+  
+  .text-4xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+}
+
+/* Prevent horizontal overflow from animations */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Mobile-safe touch targets (min 44px) */
+@media (pointer: coarse) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Smooth scroll snapping for mobile sections */
+@media (max-width: 768px) {
+  .snap-container {
+    scroll-snap-type: y proximity;
+  }
+  
+  .snap-item {
+    scroll-snap-align: start;
+  }
+}
+
+/* Mobile-optimized form inputs */
+@media (max-width: 640px) {
+  input, textarea {
+    font-size: 16px !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+}
