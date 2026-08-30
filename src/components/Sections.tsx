@@ -832,3 +832,126 @@ export function ContactMethodsGrid({ content }: { content: Content }) {
     </section>
   );
 }
+
+/* ----------------------------- SVG WAVE DIVIDER ----------------------------- */
+export function WaveDivider({ color, flip }: { color?: string; flip?: boolean }) {
+  const t = useTheme().theme;
+  return (
+    <div className={`relative w-full overflow-hidden ${flip ? 'rotate-180' : ''}`} style={{ marginTop: -1, marginBottom: -1 }}>
+      <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-16 sm:h-20">
+        <motion.path
+          d="M0 60L48 54C96 48 192 36 288 42C384 48 480 72 576 78C672 84 768 72 864 60C960 48 1056 36 1152 42C1248 48 1344 60 1392 66L1440 72V120H1392C1344 120 1248 120 1152 120C1056 120 960 120 864 120C768 120 672 120 576 120C480 120 384 120 288 120C192 120 96 120 48 120H0V60Z"
+          fill={color || t.bg}
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 2, ease: "easeInOut" }}
+        />
+      </svg>
+    </div>
+  );
+}
+
+/* ----------------------------- FLOATING PARTICLES ----------------------------- */
+export function FloatingParticles({ count = 20 }: { count?: number }) {
+  const t = useTheme().theme;
+  const particles = Array.from({ length: count }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 4 + 2,
+    duration: Math.random() * 10 + 10,
+    delay: Math.random() * 5,
+  }));
+  
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            background: `${t.accent}40`,
+          }}
+          animate={{
+            y: [0, -30, 0],
+            opacity: [0.2, 0.8, 0.2],
+          }}
+          transition={{
+            duration: p.duration,
+            repeat: Infinity,
+            delay: p.delay,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ----------------------------- ANIMATED GRADIENT TEXT ----------------------------- */
+export function GradientText({ children, className }: { children: ReactNode; className?: string }) {
+  const t = useTheme().theme;
+  return (
+    <motion.span
+      className={`bg-clip-text text-transparent ${className}`}
+      style={{
+        backgroundImage: `linear-gradient(90deg, ${t.accent}, ${t.accent2}, ${t.accent})`,
+        backgroundSize: '200% auto',
+      }}
+      animate={{ backgroundPosition: ['0% center', '200% center'] }}
+      transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+    >
+      {children}
+    </motion.span>
+  );
+}
+
+/* ----------------------------- PULSE RING ----------------------------- */
+export function PulseRing({ size = 60 }: { size?: number }) {
+  const t = useTheme().theme;
+  return (
+    <div className="relative" style={{ width: size, height: size }}>
+      <motion.div
+        className="absolute inset-0 rounded-full"
+        style={{ border: `2px solid ${t.accent}` }}
+        animate={{ scale: [1, 1.5], opacity: [0.8, 0] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
+      />
+      <motion.div
+        className="absolute inset-0 rounded-full"
+        style={{ border: `2px solid ${t.accent}` }}
+        animate={{ scale: [1, 1.5], opacity: [0.8, 0] }}
+        transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
+      />
+      <div
+        className="absolute inset-2 rounded-full flex items-center justify-center"
+        style={{ background: t.accent }}
+      >
+        <span className="text-xl">●</span>
+      </div>
+    </div>
+  );
+}
+
+/* ----------------------------- ANIMATED ICON ----------------------------- */
+export function AnimatedIcon({ icon, delay = 0 }: { icon: string; delay?: number }) {
+  const t = useTheme().theme;
+  return (
+    <motion.div
+      initial={{ scale: 0, rotate: -180 }}
+      whileInView={{ scale: 1, rotate: 0 }}
+      viewport={{ once: true }}
+      transition={{ type: "spring", stiffness: 200, damping: 15, delay }}
+      whileHover={{ scale: 1.2, rotate: 10 }}
+      className="flex items-center justify-center w-14 h-14 rounded-2xl text-2xl"
+      style={{ background: `${t.accent}20`, color: t.accent }}
+    >
+      {icon}
+    </motion.div>
+  );
+}
